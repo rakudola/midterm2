@@ -9,24 +9,22 @@
 
 <body>
   <div class="header">
-    <div class="logo">
-      <img src="images/ordinary.png">
-    </div>
     <div class="title">
-      <h2>CS 260</h2>
-      <h1>Museum of Ordinary Objects</h1>
+      <h2>Definitely Not Amazon</h2>
+      <p>(Please don't sue me)</p>
     </div>
   </div>
   
   <div id="app" class="content">
     <h2>Available Products</h2>
     <div class="image" v-for="product in products">
-      <input type="checkbox" v-model="product.selected">
       <img :src="product.url" />
-      <p><b>{{product.title}}</b> - ${{product.price}}</p>
+      <input class="check" type="checkbox" v-model="product.selected">
+      <b>{{product.title}}</b> - ${{product.price}}
+      <hr />
     </div>
     <button v-on:click="dovote()">Submit Purchase</button>
-    <hr />
+    <br />
     
     <h2>Shopping Cart</h2>
     <div v-for="product in purchased">
@@ -40,7 +38,9 @@
   <div class="footer">
     <a href="admin.html">Admin</a>
     <span> | </span>
-    <a href="https://github.com/BYUCS260/lab-5-mongodb-rakudola">Github Repository</a>
+    <a href="">Customer Page</a>
+    <span> | </span>
+    <a href="https://github.com/rakudola/midterm2">Github Repository</a>
   </div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>

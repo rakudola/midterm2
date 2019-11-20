@@ -18,7 +18,18 @@ var app = new Vue({
   computed: {
     suggestions() {
       return this.products.filter(product => product.title.toLowerCase().startsWith(this.findTitle.toLowerCase()));
-    }
+    },
+    sortedArray: function() {
+      function compare(a, b) {
+        if (a.name < b.name)
+          return -1;
+        if (a.name > b.name)
+          return 1;
+        return 0;
+      }
+
+      return this.products.sort(compare);
+    },
   },
   methods: {
     fileChanged(event) {

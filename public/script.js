@@ -30,16 +30,6 @@ var app = new Vue({
       } catch (error) {
         console.log(error);
       }
-      /*var url = "/api/products/" + product._id + "/upvote";
-      console.log("upvote URL " + url);
-      axios.put(url)
-        .then(response => {
-          console.log(response.data.votes);
-          candidate.votes = response.data.votes;
-        })
-        .catch(e => {
-          console.log(e);
-        });*/
     },
     dovote() {
       console.log("In Dovote");
