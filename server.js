@@ -1,14 +1,5 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-// Configure multer so that it will upload to '/public/images'
-const multer = require('multer')
-
-const upload = multer({
-  dest: './public/images/',
-  limits: {
-    fileSize: 10000000
-  }
-});
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,77 +12,68 @@ app.use(express.static('public'));
 const mongoose = require('mongoose');
 
 // connect to the database
-mongoose.connect('mongodb://127.0.0.1:27017/museum', {
+mongoose.connect('mongodb://127.0.0.1:27017/amazon', {
   useNewUrlParser: true
 });
 
-// Create a scheme for items in the museum: a title and a path to an image.
-const itemSchema = new mongoose.Schema({
+// Create a scheme for products: a title and a path to an image.
+const productSchema = new mongoose.Schema({
   title: String,
-  path: String,
-  desc: String,
+  price: String,
+  url: String,
+  ordered: Number,
+  checked: Boolean,
 });
 
-// Create a model for items in the museum.
-const Item = mongoose.model('Item', itemSchema);
+// Create a model for products in the store.
+const Product = mongoose.model('Product', productSchema);
 
-// Upload a photo. Uses the multer middleware for the upload and then returns
-// the path where the photo is stored in the file system.
-app.post('/api/photos', upload.single('photo'), async (req, res) => {
-  // Just a safety check
-  if (!req.file) {
-    return res.sendStatus(400);
-  }
-  res.send({
-    path: "/images/" + req.file.filename
-  });
-});
-
-// Create a new item in the museum: takes a title and a path to an image.
-app.post('/api/items', async (req, res) => {
-  const item = new Item({
+// Create a new product in the store: takes a title and a path to an image.
+app.post('/api/products', async (req, res) => {
+  const product = new Product({
     title: req.body.title,
-    path: req.body.path,
-    desc: req.body.desc,
+    price: req.body.price,
+    url: req.body.url,
+    ordered: req.body.ordered,
+    checked: req.body.checked,
   });
   try {
-    await item.save();
-    res.send(item);
+    await product.save();
+    res.send(product);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-// Get a list of all of the items in the museum.
-app.get('/api/items', async (req, res) => {
+// Get a list of all of the products in the store.
+app.get('/api/products', async (req, res) => {
   try {
-    let items = await Item.find();
-    res.send(items);
+    let products = await Product.find();
+    res.send(products);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-app.put('/api/items/:id', async(req, res) => {
-  const item = await Item.findOne({
+app.put('/api/products/:id', async(req, res) => {
+  const product = await Product.findOne({
     _id: req.params.id,
   });
   try {
-    item.title = req.body.title;
-    item.desc = req.body.desc;
-    await item.save();
-    res.send(item);
+    product.ordered = req.body.ordered;
+    await product.save();
+    res.send(product);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-app.delete('/api/items/:id', async(req, res) => {
+app.delete('/api/products/:id', async(req, res) => {
   try {
-      await Item.deleteOne({
+      await Product.deleteOne({
       _id: req.params.id
     });
     res.sendStatus(200);

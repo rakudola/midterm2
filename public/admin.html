@@ -4,65 +4,65 @@
 <head>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css" />
-  <title>Museum of Ordinary Objects</title>
+  <title>Store Management</title>
 </head>
 
 <body>
-  <div id="admin" class="content">
-    <h1>Museum of Ordinary Objects: The Admin Page!</h1>
-    <div class="heading">
-      <div class="circle">1</div>
-      <h2>Add an Item</h2>
+  <div class="header">
+    <div class="logo">
+      <img src="images/ordinary.png">
     </div>
-    
-    <div class="add">
-      <div class="form">
-        <input v-model="title" placeholder="Title">
-        <br /><p></p>
-        <textarea v-model="desc" placeholder="Description"></textarea>
-        <p></p>
-        <input type="file" name="photo" @change="fileChanged">
-        <button @click="upload">Upload</button>
-      </div>
-      <div class="upload" v-if="addItem">
-        <h2>{{addItem.title}}</h2>
-        <img :src="addItem.path" />
-        <p>{{addItem.desc}}</p>
-      </div>
-    </div>
-    
-    <div class="heading">
-      <div class="circle">2</div>
-      <h2>Edit/Delete an Item</h2>
-    </div>
-    <div class="edit">
-      <div class="form">
-        <input v-model="findTitle" placeholder="Search">
-        <div class="suggestions" v-if="suggestions.length > 0">
-          <div class="suggestion" v-for="s in suggestions" @click="selectItem(s)">{{s.title}}
-          </div>
-        </div>
-      </div>
-      <div class="upload" v-if="findItem">
-        <input v-model="findItem.title">
-        <br /><p></p>
-        <textarea v-model="desc" placeholder="Description"></textarea>
-        <p></p>
-        <img :src="findItem.path" />
-      </div>
-      <div class="actions" v-if="findItem">
-        <button @click="deleteItem(findItem)">Delete</button>
-        <button @click="editItem(findItem)">Edit</button>
-      </div>
+    <div class="title">
+      <h2>CS 260</h2>
+      <h1>Museum of Ordinary Objects</h1>
     </div>
   </div>
   
+  <div id="admin" class="content">
+    <h1>Store Management</h1>
+    <div class="heading">
+      <!--<div class="circle">1</div>-->
+      <h2>Add a Product</h2>
+    </div>
+
+    <div class="add">
+      <div class="form">
+        <input v-model="title" placeholder="Product Name">
+        <br />
+        <p></p>
+        <input v-model="price" placeholder="Price">
+        <p></p>
+        <input v-model="url" placeholder="Picture URL">
+        <p></p>
+        <button @click="upload">Upload</button>
+      </div>
+      <div class="upload" v-if="addProduct">
+        <h2>{{addProduct.title}}</h2>
+        <img :src="addProduct.url" />
+        <p>{{addProduct.price}}</p>
+      </div>
+    </div>
+
+    <div class="heading">
+      <h2>Current Products</h2>
+    </div>
+    
+    <div v-for="product in products">
+      <img :src="product.url" />
+      <br />{{product.title}} - ${{product.price}} - {{product.ordered}} unit(s) ordered
+      <br />
+      <button class="x-button" @click="deleteProduct(product)">Delete</button>
+      <hr />
+    </div>
+    
+  </div>
+
   <footer class="footer">
     <a href="../">Home</a>
     <span> | </span>
     <a href="https://github.com/BYUCS260/lab-5-mongodb-rakudola">Github Repository</a>
   </footer>
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js" integrity="sha256-g+Q8DFAmG5+eyRPSydX0LY4TfjsL11XSDrIGerbbEdA=" crossorigin="anonymous"></script>
   <script src="/admin.js"></script>
